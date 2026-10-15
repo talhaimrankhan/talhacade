@@ -2,9 +2,9 @@ import { BrainCircuit, Gamepad2, Puzzle, Sparkles } from "lucide-react";
 import type { Category, CategorySlug, Game } from "./types";
 
 export const site = {
-  name: "Neon Arcade",
+  name: "Talhacade",
   /** Change this to your real domain after deploying. */
-  url: "https://neon-arcade.netlify.app",
+  url: "https://talhacade.netlify.app",
   tagline: "Free browser games. No signup, no downloads, no nonsense.",
   description:
     "Play the best browser-based games instantly — arcade, puzzle, strategy and casual. No accounts, no logins, no servers: every game runs entirely in your browser.",

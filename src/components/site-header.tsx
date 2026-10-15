@@ -15,8 +15,8 @@ export function SiteHeader() {
             <Gamepad2 className="h-5 w-5 text-white" aria-hidden />
           </span>
           <span className="font-display text-lg font-bold tracking-wider">
-            <span className="text-ink">NEON</span>
-            <span className="text-gradient">ARCADE</span>
+            <span className="text-ink">TALHA</span>
+            <span className="text-gradient">CADE</span>
           </span>
         </Link>
 

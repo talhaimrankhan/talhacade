@@ -12,8 +12,8 @@ export function SiteFooter() {
               <Gamepad2 className="h-4 w-4 text-white" aria-hidden />
             </span>
             <span className="font-display text-base font-bold tracking-wider">
-              <span className="text-ink">NEON</span>
-              <span className="text-gradient">ARCADE</span>
+              <span className="text-ink">TALHA</span>
+              <span className="text-gradient">CADE</span>
             </span>
           </div>
           <p className="mt-4 max-w-md text-sm leading-relaxed text-muted">

@@ -1,4 +1,6 @@
-# Neon Arcade 🎮
+# Talhacade 🎮
+
+> **Talhacade** — *tal-HA-cade, rhymes with arcade.* Made by Talha.
 
 A modern, gamer-aesthetic portal for browser games — **no logins, no accounts, no
 servers**. Every score, favorite and "recently played" entry lives only in the

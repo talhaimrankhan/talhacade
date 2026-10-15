@@ -23,7 +23,7 @@ export async function generateMetadata({
     title: `${game.title} — Play Free in Your Browser`,
     description: `${game.tagline} ${game.description}`.slice(0, 158),
     openGraph: {
-      title: `${game.title} · Neon Arcade`,
+      title: `${game.title} · Talhacade`,
       description: game.tagline,
       type: "website",
     },
@@ -105,7 +105,7 @@ export default async function GamePage({
             <span className="h-3 w-3 rounded-full bg-success/80" />
           </span>
           <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">
-            neon-arcade // {game.slug}
+            talhacade // {game.slug}
           </span>
         </div>
 
