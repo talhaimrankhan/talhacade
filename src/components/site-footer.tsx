@@ -53,16 +53,9 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-line/70 py-5 text-center text-xs text-muted">
-        <p>
-          © {new Date().getFullYear()} {site.name} · Built for players, not
-          profiles.
-        </p>
-        <p className="mt-1.5">
-          Made by <span className="font-semibold text-gradient">Talha</span> with{" "}
-          <span aria-hidden>♥</span>
-          <span className="sr-only">love</span> and an unreasonable amount of
-          neon.
-        </p>
+        Made by <span className="font-semibold text-gradient">Talha</span> with{" "}
+        <span aria-hidden>♥</span>
+        <span className="sr-only">love</span>.
       </div>
     </footer>
   );
