@@ -43,7 +43,7 @@ src/
 │   ├── sitemap.ts robots.ts
 │   └── not-found.tsx       # Styled 404
 ├── components/             # Header, footer, cards, game player shell…
-├── games/                  # The 9 games — pure client components
+├── games/                  # 80 games — pure client components
 │   └── parts.tsx           # Shared overlay / HUD / CTA primitives
 └── lib/
     ├── catalog.ts          # Categories + games data (the single source of truth)
@@ -83,6 +83,12 @@ npm run lint
    description, controls, cover emoji + gradient, `score` config).
 4. Done — home grid, category page, sitemap, game page and similar-games all
    pick it up from the catalog.
+
+> Batch additions: drop a JSON array of `Game` entries (same shape as
+> `games[]`) into `catalog-entries/` and run
+> `node scripts/merge-catalog.mjs` — it validates slugs/schema/files and
+> splices both the catalog entries and the loader lines for you (`--dry` to
+> preview).
 
 > Games must render deterministic markup if SSR'd; random-initial-state games
 > are fine because the player shell loads them with `ssr: false`.
