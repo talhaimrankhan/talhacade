@@ -26,7 +26,16 @@ const root = resolve(import.meta.dirname, "..");
 const dry = process.argv.includes("--dry");
 const args = process.argv.slice(2).filter((a) => a !== "--dry");
 
-const CATEGORIES = new Set(["arcade", "puzzle", "strategy", "casual"]);
+const CATEGORIES = new Set([
+  "arcade",
+  "puzzle",
+  "strategy",
+  "casual",
+  "racing",
+  "shooting",
+  "sports",
+  "word",
+]);
 const INPUTS = new Set(["keyboard", "mouse", "touch"]);
 const MODES = new Set(["high", "low"]);
 const KINDS = new Set(["points", "seconds", "ms", "moves"]);
@@ -44,6 +53,12 @@ const GRADIENTS = new Set([
   "from-yellow-400 via-amber-500 to-orange-600",
   "from-lime-400 via-emerald-500 to-teal-600",
   "from-rose-400 via-pink-500 to-fuchsia-600",
+  "from-orange-500 via-red-500 to-rose-600",
+  "from-lime-400 via-green-500 to-emerald-600",
+  "from-indigo-400 via-violet-500 to-purple-600",
+  "from-blue-400 via-indigo-500 to-violet-600",
+  "from-teal-400 via-cyan-500 to-sky-600",
+  "from-stone-400 via-neutral-500 to-zinc-700",
 ]);
 
 const errors = [];

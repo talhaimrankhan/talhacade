@@ -2,7 +2,15 @@ import type { LucideIcon } from "lucide-react";
 
 export type InputType = "keyboard" | "mouse" | "touch";
 
-export type CategorySlug = "arcade" | "puzzle" | "strategy" | "casual";
+export type CategorySlug =
+  | "arcade"
+  | "puzzle"
+  | "strategy"
+  | "casual"
+  | "racing"
+  | "shooting"
+  | "sports"
+  | "word";
 
 export interface Category {
   slug: CategorySlug;

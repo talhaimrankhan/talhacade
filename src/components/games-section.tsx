@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { GameCard } from "@/components/game-card";
-import { categories, games } from "@/lib/catalog";
+import { publishedCategories, games } from "@/lib/catalog";
 import type { CategorySlug } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
@@ -17,7 +17,7 @@ export function GamesSection() {
 
   const chips: { id: Filter; label: string }[] = [
     { id: "all", label: `All · ${games.length}` },
-    ...categories.map((c) => ({
+    ...publishedCategories.map((c) => ({
       id: c.slug as Filter,
       label: `${c.name} · ${games.filter((g) => g.category === c.slug).length}`,
     })),

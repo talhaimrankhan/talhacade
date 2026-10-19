@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { categories, games, site } from "@/lib/catalog";
+import { publishedCategories, games, site } from "@/lib/catalog";
 
 export const dynamic = "force-static";
 
@@ -12,7 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 1,
     },
-    ...categories.map((category) => ({
+    ...publishedCategories.map((category) => ({
       url: `${base}/category/${category.slug}/`,
       changeFrequency: "weekly" as const,
       priority: 0.8,

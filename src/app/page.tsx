@@ -1,7 +1,7 @@
 import { CategoriesGrid } from "@/components/categories-grid";
 import { GamesSection } from "@/components/games-section";
 import { RecentlyPlayed } from "@/components/recently-played";
-import { categories, games, site } from "@/lib/catalog";
+import { publishedCategories, games, site } from "@/lib/catalog";
 import { Cookie, MonitorSmartphone, Timer } from "lucide-react";
 import Link from "next/link";
 
@@ -72,7 +72,7 @@ export default function HomePage() {
             <dl className="mt-11 grid max-w-md grid-cols-3 gap-5">
               {[
                 { value: games.length, label: "Games" },
-                { value: categories.length, label: "Genres" },
+                { value: publishedCategories.length, label: "Genres" },
                 { value: 0, label: "Accounts" },
               ].map((stat) => (
                 <div key={stat.label}>

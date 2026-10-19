@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { GameCard } from "@/components/game-card";
-import { categories, getCategory, gamesInCategory } from "@/lib/catalog";
+import { publishedCategories, getCategory, gamesInCategory } from "@/lib/catalog";
 
 export function generateStaticParams() {
-  return categories.map((category) => ({ slug: category.slug }));
+  return publishedCategories.map((category) => ({ slug: category.slug }));
 }
 
 export async function generateMetadata({
@@ -76,7 +76,7 @@ export default async function CategoryPage({
           href="/#categories"
           className="rounded-full bg-gradient-to-r from-violet-600 to-cyan-600 px-5 py-2.5 text-sm font-bold text-white transition hover:brightness-110 active:scale-95"
         >
-          See all {categories.length} categories
+          See all {publishedCategories.length} categories
         </Link>
       </div>
     </div>

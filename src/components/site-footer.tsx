@@ -1,4 +1,4 @@
-import { categories, site } from "@/lib/catalog";
+import { publishedCategories, site } from "@/lib/catalog";
 import { Gamepad2 } from "lucide-react";
 import Link from "next/link";
 
@@ -27,7 +27,7 @@ export function SiteFooter() {
             Categories
           </h3>
           <ul className="mt-4 space-y-2.5 text-sm">
-            {categories.map((category) => (
+            {publishedCategories.map((category) => (
               <li key={category.slug}>
                 <Link
                   href={`/category/${category.slug}/`}

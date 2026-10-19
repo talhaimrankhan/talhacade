@@ -43,7 +43,7 @@ src/
 │   ├── sitemap.ts robots.ts
 │   └── not-found.tsx       # Styled 404
 ├── components/             # Header, footer, cards, game player shell…
-├── games/                  # 80 games — pure client components
+├── games/                  # 140 games — pure client components
 │   └── parts.tsx           # Shared overlay / HUD / CTA primitives
 └── lib/
     ├── catalog.ts          # Categories + games data (the single source of truth)
