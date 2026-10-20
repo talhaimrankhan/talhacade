@@ -13,7 +13,7 @@ import type { Category, CategorySlug, Game } from "./types";
 export const site = {
   name: "Talhacade",
   /** Change this to your real domain after deploying. */
-  url: "https://talhacade.netlify.app",
+  url: "https://talhaimrankhan.github.io/talhacade",
   tagline: "Free browser games. No signup, no downloads, no nonsense.",
   description:
     "Play the best browser-based games instantly — racing, shooting, sports, word, arcade, puzzle, strategy and casual. No accounts, no logins, no servers: every game runs entirely in your browser.",
