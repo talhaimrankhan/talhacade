@@ -1,15 +1,25 @@
+import { ArcadeWall } from "@/components/arcade-wall";
 import { CategoriesGrid } from "@/components/categories-grid";
 import { GamesSection } from "@/components/games-section";
+import { RandomButton } from "@/components/random-button";
 import { RecentlyPlayed } from "@/components/recently-played";
-import { publishedCategories, games, site } from "@/lib/catalog";
-import { Cookie, MonitorSmartphone, Timer } from "lucide-react";
+import { Shelf } from "@/components/shelf";
+import {
+  popularSlugs,
+  publishedCategories,
+  games,
+  site,
+  trendingSlugs,
+} from "@/lib/catalog";
+import {
+  Cookie,
+  MonitorSmartphone,
+  Plus,
+  RotateCcw,
+  ShieldCheck,
+  Timer,
+} from "lucide-react";
 import Link from "next/link";
-
-const showcasePositions = [
-  "left-[4%] top-[6%] -rotate-6 animate-float",
-  "right-[2%] top-[30%] rotate-[5deg] animate-float-slow",
-  "left-[12%] bottom-[4%] rotate-3 animate-float",
-];
 
 const features = [
   {
@@ -27,11 +37,47 @@ const features = [
     title: "Plays anywhere",
     text: "Keyboard, mouse or touchscreen — every game is labeled for how you're playing today.",
   },
+  {
+    icon: RotateCcw,
+    title: "One-click restarts",
+    text: "Wiped out? You're back in the run instantly. No continue screens, no lives to buy.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "No ads, no popups",
+    text: "Nothing interrupts a run — no pre-roll, no overlay, no cookie banner marathon.",
+  },
+  {
+    icon: Timer,
+    title: "Free forever",
+    text: `All ${games.length} games cost nothing to play, and that is not changing.`,
+  },
+];
+
+const faqs = [
+  {
+    q: "Do I need an account?",
+    a: "No — there is no signup, no login and no download anywhere on the site. Click a game and it starts.",
+  },
+  {
+    q: "Where are my high scores and favorites saved?",
+    a: "In your browser's local storage, on your device only. Nothing is uploaded to a server; clearing your browser data resets them.",
+  },
+  {
+    q: "Do the games work on phones and tablets?",
+    a: "Yes. Every game is labeled keyboard, mouse or touch, and touch games show on-screen controls that fit your thumb.",
+  },
+  {
+    q: "Are all the games really free?",
+    a: "Completely. No paywalls, no premium tier, no lives system — just pick and play.",
+  },
+  {
+    q: "What kinds of games are here?",
+    a: "Eight genres: arcade, puzzle, strategy, casual, racing, shooting, sports and word — from 30-second reaction tests to strategy duels that eat your lunch break.",
+  },
 ];
 
 export default function HomePage() {
-  const showcase = games.filter((g) => g.featured).slice(0, 3);
-
   return (
     <>
       {/* ---------------- hero ---------------- */}
@@ -62,10 +108,10 @@ export default function HomePage() {
                 Start playing
               </a>
               <Link
-                href="/#categories"
+                href="/games/"
                 className="rounded-full border border-line bg-surface px-6 py-3 text-sm font-bold text-ink transition hover:border-primary/50 hover:bg-surface-2 active:scale-95 sm:text-base"
               >
-                Browse categories
+                Browse all games
               </Link>
             </div>
 
@@ -88,35 +134,16 @@ export default function HomePage() {
             </dl>
           </div>
 
-          {/* floating showcase */}
-          <div className="relative hidden h-[440px] lg:block">
+          {/* auto-scrolling arcade wall */}
+          <div className="relative hidden lg:block">
             <div
               aria-hidden
               className="absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-violet-600/40 to-cyan-500/30 blur-3xl"
             />
-            {showcase.map((game, i) => (
-              <Link
-                key={game.slug}
-                href={`/games/${game.slug}/`}
-                className={`group absolute w-60 overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_28px_70px_-30px_rgba(0,0,0,0.9)] transition hover:-translate-y-2 hover:border-primary/60 ${showcasePositions[i]}`}
-              >
-                <div
-                  className={`scanlines relative grid h-32 place-items-center bg-gradient-to-br ${game.cover.gradient}`}
-                >
-                  <span className="text-5xl drop-shadow-[0_8px_18px_rgba(0,0,0,0.5)] transition group-hover:scale-125">
-                    {game.cover.emoji}
-                  </span>
-                </div>
-                <div className="flex items-center justify-between px-4 py-3">
-                  <span className="font-display text-sm font-semibold tracking-wide">
-                    {game.title}
-                  </span>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-accent opacity-0 transition group-hover:opacity-100">
-                    Play →
-                  </span>
-                </div>
-              </Link>
-            ))}
+            <ArcadeWall />
+            <p className="pointer-events-none absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-line bg-surface/90 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.2em] text-muted backdrop-blur">
+              {games.length} games and counting
+            </p>
           </div>
         </div>
       </section>
@@ -141,7 +168,21 @@ export default function HomePage() {
         <CategoriesGrid />
       </section>
 
-      {/* ---------------- all games ---------------- */}
+      {/* ---------------- curated shelves ---------------- */}
+      <Shelf
+        eyebrow="The heavy hitters"
+        title="Popular right now"
+        blurb="The evergreen picks players keep coming back to — beat a high score and see why."
+        slugs={popularSlugs}
+      />
+      <Shelf
+        eyebrow="Fresh spins"
+        title="Trending this week"
+        blurb="Newer arrivals that are getting a lot of plays — drift, siege, dunk and duel."
+        slugs={trendingSlugs}
+      />
+
+      {/* ---------------- all games preview ---------------- */}
       <section id="games" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-8 sm:px-6">
         <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
           <div>
@@ -159,9 +200,21 @@ export default function HomePage() {
         <GamesSection />
       </section>
 
-      {/* ---------------- why strip ---------------- */}
+      {/* ---------------- why talhacade ---------------- */}
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <div className="grid gap-5 md:grid-cols-3">
+        <div className="mb-8 max-w-2xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+            Why Talhacade
+          </p>
+          <h2 className="mt-1 font-display text-2xl font-bold sm:text-3xl">
+            Built like a real arcade, run like none other
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
+            No accounts, no storefront, no algorithm. Just a wall of games that
+            start the second you click them.
+          </p>
+        </div>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature) => (
             <div key={feature.title} className="panel p-6">
               <span className="grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br from-violet-500/25 to-cyan-500/25 text-primary">
@@ -175,6 +228,56 @@ export default function HomePage() {
               </p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ---------------- faq ---------------- */}
+      <section className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+          Good questions
+        </p>
+        <h2 className="mt-1 font-display text-2xl font-bold sm:text-3xl">
+          The fine print, in plain words
+        </h2>
+        <div className="mt-7 space-y-3">
+          {faqs.map((faq) => (
+            <details key={faq.q} className="group panel p-5">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-sm font-semibold [&::-webkit-details-marker]:hidden">
+                {faq.q}
+                <Plus
+                  className="h-4 w-4 shrink-0 text-accent transition group-open:rotate-45"
+                  aria-hidden
+                />
+              </summary>
+              <p className="mt-3 text-sm leading-relaxed text-muted">{faq.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      {/* ---------------- cta ---------------- */}
+      <section className="mx-auto max-w-6xl px-4 pb-6 pt-10 sm:px-6">
+        <div className="panel relative overflow-hidden rounded-3xl bg-gradient-to-br from-violet-600/15 via-surface to-cyan-500/10 p-8 text-center sm:p-12">
+          <div
+            aria-hidden
+            className="absolute left-1/2 top-0 h-56 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-600/25 blur-3xl"
+          />
+          <h2 className="relative font-display text-2xl font-bold sm:text-3xl">
+            Can&apos;t decide where to start?
+          </h2>
+          <p className="relative mx-auto mt-3 max-w-md text-sm leading-relaxed text-muted sm:text-base">
+            Let the arcade pick for you — one click, one random game, zero
+            decisions.
+          </p>
+          <div className="relative mt-7 flex flex-wrap items-center justify-center gap-3">
+            <RandomButton />
+            <Link
+              href="/games/"
+              className="rounded-full border border-line bg-surface px-5 py-2.5 text-sm font-bold text-ink transition hover:border-primary/50 hover:bg-surface-2 active:scale-95"
+            >
+              Or browse all {games.length} games
+            </Link>
+          </div>
         </div>
       </section>
     </>

@@ -2495,6 +2495,13 @@ export function getGame(slug: string): Game | undefined {
   return games.find((g) => g.slug === slug);
 }
 
+/** Resolves a curated slug list to games, skipping any stale slugs. */
+export function gamesBySlugs(slugs: readonly string[]): Game[] {
+  return slugs
+    .map((slug) => getGame(slug))
+    .filter((game): game is Game => game !== undefined);
+}
+
 export function gamesInCategory(slug: CategorySlug): Game[] {
   return games.filter((g) => g.category === slug);
 }
@@ -2503,6 +2510,48 @@ export function gamesInCategory(slug: CategorySlug): Game[] {
 export const publishedCategories = categories.filter(
   (c) => gamesInCategory(c.slug).length > 0,
 );
+
+/* ------------------------------------------------------------------ */
+/* Curated homepage shelves (hand-ordered editor picks)                */
+/* ------------------------------------------------------------------ */
+
+/** Games tiled in the hero arcade wall — a spread across genres. */
+export const wallSlugs = [
+  "snake",
+  "moto-trial",
+  "2048",
+  "zombie-siege",
+  "hoop-rush",
+  "breakout",
+  "night-outrun",
+  "bubble-storm",
+  "ski-jump",
+  "reaction",
+] as const;
+
+/** "Popular right now" shelf — evergreen heavy-hitters. */
+export const popularSlugs = [
+  "snake",
+  "breakout",
+  "2048",
+  "highway-rush",
+  "zombie-siege",
+  "penalty-shootout",
+  "bubble-storm",
+  "night-outrun",
+] as const;
+
+/** "Trending now" shelf — newer titles worth a spin. */
+export const trendingSlugs = [
+  "moto-trial",
+  "rally-sprint",
+  "slime-arena",
+  "hoop-rush",
+  "bowling-blitz",
+  "clay-shoot",
+  "ski-jump",
+  "derby-arena",
+] as const;
 
 export function similarGames(game: Game, count = 3): Game[] {
   const sameCategory = gamesInCategory(game.category).filter(

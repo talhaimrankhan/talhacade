@@ -24,6 +24,9 @@ export function SiteHeader() {
           <Link href="/" className={`${navLink} hidden sm:block`}>
             Home
           </Link>
+          <Link href="/games/" className={`${navLink} hidden sm:block`}>
+            Games
+          </Link>
           <Link href="/#categories" className={`${navLink} hidden sm:block`}>
             Categories
           </Link>

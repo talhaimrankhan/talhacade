@@ -223,12 +223,43 @@ body::before {
   animation: blink 1.1s step-end infinite;
 }
 
+/* Auto-scrolling arcade wall (hero) — two columns, opposite directions.
+   Items carry margin-bottom (not gap) so translateY(-50%) loops seamlessly. */
+@keyframes wall-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+@keyframes wall-down {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.animate-wall-up {
+  animation: wall-up 46s linear infinite;
+}
+.animate-wall-down {
+  animation: wall-down 46s linear infinite;
+}
+.arcade-wall:hover .animate-wall-up,
+.arcade-wall:hover .animate-wall-down {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-float,
   .animate-float-slow,
   .animate-pulse-glow,
   .animate-blink,
-  .animate-pop {
+  .animate-pop,
+  .animate-wall-up,
+  .animate-wall-down {
     animation: none;
   }
   html {

@@ -21,8 +21,12 @@ Built with Next.js 16 (App Router, static export) + TypeScript + Tailwind CSS v4
 
 Site features:
 
-- **Home** — hero with floating showcase cards, category grid, filterable game
-  grid (Framer Motion), a "Jump back in" strip fed by localStorage, trust strip.
+- **Home** — hero with an auto-scrolling arcade wall (pure CSS, pauses on
+  hover), category grid, curated "Popular" / "Trending" shelves, a 12-card
+  game preview with filter chips and a View-all link, "Why Talhacade" strip,
+  FAQ and a Surprise-me CTA.
+- **`/games/`** — full-catalog browse page with instant search, genre filter
+  chips and progressive "Show more" loading.
 - **`/category/[slug]/`** — genre listing pages (prerendered, SEO-friendly).
 - **`/games/[slug]/`** — game pages with in-page arcade chrome, high-score chip,
   favorite toggle, controls reference and similar-game recommendations.
@@ -36,13 +40,14 @@ Site features:
 ```
 src/
 ├── app/                    # Routes (all statically prerendered)
-│   ├── page.tsx            # Home
+│   ├── page.tsx            # Home (hero wall, shelves, preview, why, FAQ, CTA)
+│   ├── games/page.tsx      # Full catalog browse (search + filters)
 │   ├── category/[slug]/    # Genre pages (generateStaticParams)
 │   ├── games/[slug]/       # Game pages (generateStaticParams)
 │   ├── favorites/          # localStorage-backed favorites list
 │   ├── sitemap.ts robots.ts
 │   └── not-found.tsx       # Styled 404
-├── components/             # Header, footer, cards, game player shell…
+├── components/             # Header, footer, cards, arcade wall, shelves…
 ├── games/                  # 140 games — pure client components
 │   └── parts.tsx           # Shared overlay / HUD / CTA primitives
 └── lib/

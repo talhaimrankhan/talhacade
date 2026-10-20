@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { GameCard } from "@/components/game-card";
 import { publishedCategories, games } from "@/lib/catalog";
 import type { CategorySlug } from "@/lib/types";
@@ -8,6 +10,9 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 
 type Filter = CategorySlug | "all";
+
+/** Homepage preview size — the full catalog lives at /games/. */
+const PREVIEW = 12;
 
 export function GamesSection() {
   const [filter, setFilter] = useState<Filter>("all");
@@ -22,6 +27,8 @@ export function GamesSection() {
       label: `${c.name} · ${games.filter((g) => g.category === c.slug).length}`,
     })),
   ];
+
+  const viewAllHref = filter === "all" ? "/games/" : `/games/?cat=${filter}`;
 
   return (
     <div>
@@ -45,7 +52,7 @@ export function GamesSection() {
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {visible.map((game, i) => (
+        {visible.slice(0, PREVIEW).map((game, i) => (
           <motion.div
             key={game.slug}
             layout
@@ -57,6 +64,21 @@ export function GamesSection() {
           </motion.div>
         ))}
       </div>
+
+      {visible.length > PREVIEW && (
+        <div className="mt-9 flex justify-center">
+          <Link
+            href={viewAllHref}
+            className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-600 to-cyan-600 px-7 py-3 text-sm font-bold text-white shadow-[0_0_30px_-10px_rgba(139,92,246,0.95)] transition hover:brightness-110 active:scale-95"
+          >
+            View all {visible.length} games
+            <ArrowRight
+              className="h-4 w-4 transition group-hover:translate-x-0.5"
+              aria-hidden
+            />
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

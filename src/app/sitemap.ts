@@ -12,6 +12,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 1,
     },
+    {
+      url: `${base}/games/`,
+      changeFrequency: "weekly",
+      priority: 0.95,
+    },
     ...publishedCategories.map((category) => ({
       url: `${base}/category/${category.slug}/`,
       changeFrequency: "weekly" as const,
