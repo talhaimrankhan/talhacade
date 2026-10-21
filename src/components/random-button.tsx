@@ -4,11 +4,13 @@ import { Shuffle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { games } from "@/lib/catalog";
+import { sfx } from "@/lib/sfx";
 
 export function RandomButton() {
   const router = useRouter();
 
   const surprise = useCallback(() => {
+    sfx.pop();
     const game = games[Math.floor(Math.random() * games.length)];
     router.push(`/games/${game.slug}/`);
   }, [router]);

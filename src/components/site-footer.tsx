@@ -49,6 +49,18 @@ export function SiteFooter() {
             recent games live only in this browser&apos;s storage — clear them
             any time from your browser settings.
           </p>
+          <ul className="mt-4 space-y-2.5 text-sm">
+            <li>
+              <Link href="/scorecard/" className="text-muted transition hover:text-accent">
+                Your scorecard
+              </Link>
+            </li>
+            <li>
+              <Link href="/favorites/" className="text-muted transition hover:text-accent">
+                Favorites
+              </Link>
+            </li>
+          </ul>
         </div>
       </div>
 

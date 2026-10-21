@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Chakra_Petch, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { AchievementToasts } from "@/components/achievement-toasts";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { site } from "@/lib/catalog";
@@ -65,6 +66,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-screen flex-col">
         <SiteHeader />
+        {/* Mounted before page content so its event listener is attached
+            before any on-mount unlocks (e.g. RecentTracker) dispatch. */}
+        <AchievementToasts />
         <main className="flex-1">{children}</main>
         <SiteFooter />
       </body>

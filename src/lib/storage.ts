@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useSyncExternalStore } from "react";
+import { recordPb } from "@/lib/achievements";
 
 /**
  * All persistence lives in the visitor's own browser (localStorage).
@@ -128,10 +129,13 @@ export function useBestScore(gameId: string, mode: BestMode = "high") {
       const isBest =
         previous === null ||
         (mode === "high" ? score > previous : score < previous);
-      if (isBest) write(key, score);
+      if (isBest) {
+        write(key, score);
+        recordPb(gameId, score, mode);
+      }
       return isBest;
     },
-    [key, mode],
+    [gameId, key, mode],
   );
 
   return { best, submit } as const;

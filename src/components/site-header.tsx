@@ -2,6 +2,7 @@ import { Gamepad2 } from "lucide-react";
 import Link from "next/link";
 import { FavoritesLink } from "@/components/favorites-link";
 import { RandomButton } from "@/components/random-button";
+import { SfxToggle } from "@/components/sfx-toggle";
 
 const navLink =
   "rounded-lg px-3 py-2 text-sm font-medium text-muted transition hover:bg-surface-2 hover:text-ink";
@@ -27,11 +28,15 @@ export function SiteHeader() {
           <Link href="/games/" className={`${navLink} hidden sm:block`}>
             Games
           </Link>
-          <Link href="/#categories" className={`${navLink} hidden sm:block`}>
+          <Link href="/#categories" className={`${navLink} hidden lg:block`}>
             Categories
+          </Link>
+          <Link href="/scorecard/" className={`${navLink} hidden md:block`}>
+            Scorecard
           </Link>
           <FavoritesLink />
           <RandomButton />
+          <SfxToggle />
         </nav>
       </div>
     </header>

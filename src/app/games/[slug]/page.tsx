@@ -44,7 +44,7 @@ export default async function GamePage({
   if (!game) notFound();
 
   const category = getCategory(game.category);
-  const similar = similarGames(game, 3);
+  const similar = similarGames(game, 6);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -166,7 +166,7 @@ export default async function GamePage({
               Keep playing
             </p>
             <h2 className="mt-1 font-display text-2xl font-bold">
-              You might also like
+              More in {category?.name}
             </h2>
           </div>
           <Link

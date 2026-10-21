@@ -1,9 +1,14 @@
 "use client";
 
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
+import { sfx } from "@/lib/sfx";
 
 /** Glass overlay rendered on top of a game canvas/board. */
 export function Overlay({ children }: { children: ReactNode }) {
+  useEffect(() => {
+    sfx.whoosh();
+  }, []);
+
   return (
     <div className="absolute inset-0 grid place-items-center bg-black/75 p-6 text-center backdrop-blur-[3px]">
       <div>{children}</div>
@@ -25,7 +30,10 @@ export function PrimaryButton({
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={() => {
+        sfx.click();
+        onClick();
+      }}
       className={`mt-5 rounded-full bg-gradient-to-r ${tone} px-7 py-2.5 text-sm font-bold text-black shadow-lg transition hover:brightness-110 active:scale-95`}
     >
       {children}
