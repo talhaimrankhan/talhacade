@@ -2,14 +2,17 @@
  *
  * The whole site is static, so offline support is straightforward:
  *  - navigations  → network first, cache fallback (fresh when online,
- *                   playable when not; "/" is precached as the offline shell)
+ *                   playable when not; "/" is precached as the offline shell).
+ *                   Only 2xx responses enter the cache, and 5xx / network
+ *                   failures fall back to the last good copy — error pages
+ *                   are never stored, 4xx stays honest.
  *  - /_next/static (content-hashed, immutable) → cache first
  *  - everything else (manifest, icon, images) → cache then revalidate
  *
  * All cache URLs are relative, so the worker works both at the domain root
  * and under the GitHub Pages /talhacade/ subpath.
  */
-const VERSION = "talhacade-v1";
+const VERSION = "talhacade-v2";
 const PRECACHE = ["./", "./games/", "./scorecard/"];
 
 self.addEventListener("install", (event) => {
@@ -45,21 +48,28 @@ self.addEventListener("fetch", (event) => {
 
   // App-shell pages: always prefer the network so deploys show up instantly.
   if (request.mode === "navigate") {
+    // Last resort: the cached copy of this page, then the offline shell.
+    const fallback = () =>
+      caches
+        .match(request, { ignoreSearch: true })
+        .then((hit) => hit || caches.match("./"));
     event.respondWith(
       fetch(request)
         .then((response) => {
-          const copy = response.clone();
-          caches
-            .open(VERSION)
-            .then((cache) => cache.put(request, copy))
-            .catch(() => undefined);
+          if (response.ok) {
+            const copy = response.clone();
+            caches
+              .open(VERSION)
+              .then((cache) => cache.put(request, copy))
+              .catch(() => undefined);
+            return response;
+          }
+          // Server hiccup (5xx: proxy down, deploy window) → stale but usable.
+          if (response.status >= 500) return fallback();
+          // 404 etc: pass the real answer through, never mask a bad URL.
           return response;
         })
-        .catch(() =>
-          caches
-            .match(request, { ignoreSearch: true })
-            .then((hit) => hit || caches.match("./"))
-        )
+        .catch(fallback)
     );
     return;
   }
