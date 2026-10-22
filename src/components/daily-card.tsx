@@ -46,10 +46,9 @@ export function DailyChallenge() {
 
   if (today === null) {
     return (
-      <section
-        aria-hidden
-        className="panel min-h-[110px] animate-pulse px-6 py-5"
-      />
+      <section aria-hidden className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="panel min-h-[110px] animate-pulse px-6 py-5" />
+      </section>
     );
   }
 
@@ -69,50 +68,52 @@ export function DailyChallenge() {
     .join("\n");
 
   return (
-    <section aria-label="Daily challenge" className="panel relative overflow-hidden px-6 py-5">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-gradient-to-br from-violet-600/30 to-cyan-600/30 blur-2xl"
-      />
-      <div className="relative flex flex-wrap items-center justify-between gap-5">
-        <div className="min-w-0">
-          <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.25em] text-accent">
-            <CalendarDays className="h-3.5 w-3.5 shrink-0" aria-hidden />
-            Today&apos;s challenge · Daily #{number}
-          </p>
-          <h2 className="mt-2 font-display text-xl font-bold sm:text-2xl">
-            {game.title}
-          </h2>
-          <p className="mt-1 max-w-md text-sm text-muted">
-            {category?.name ?? game.category} · {game.tagline}
-          </p>
-        </div>
-
-        <div className="flex shrink-0 flex-wrap items-center gap-3">
-          <div className="text-right">
-            <p className="flex items-center justify-end gap-1 font-display text-lg font-bold">
-              <Flame
-                className={`h-4 w-4 ${streak > 0 ? "text-orange-400" : "text-muted"}`}
-                aria-hidden
-              />
-              {streak} day{streak === 1 ? "" : "s"}
+    <section aria-label="Daily challenge" className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="panel relative overflow-hidden px-6 py-5">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-gradient-to-br from-violet-600/30 to-cyan-600/30 blur-2xl"
+        />
+        <div className="relative flex flex-wrap items-center justify-between gap-5">
+          <div className="min-w-0">
+            <p className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.25em] text-accent">
+              <CalendarDays className="h-3.5 w-3.5 shrink-0" aria-hidden />
+              Today&apos;s challenge · Daily #{number}
             </p>
-            <p className="text-[11px] uppercase tracking-widest text-muted">
-              {completed
-                ? "done today ✓"
-                : progress.daily.best > 0
-                  ? `best ${progress.daily.best}`
-                  : "starts today"}
+            <h2 className="mt-2 font-display text-xl font-bold sm:text-2xl">
+              {game.title}
+            </h2>
+            <p className="mt-1 max-w-md text-sm text-muted">
+              {category?.name ?? game.category} · {game.tagline}
             </p>
           </div>
-          <Link
-            href={`/games/${game.slug}/`}
-            className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-violet-600 to-cyan-600 px-5 py-2.5 text-sm font-bold text-white shadow-[0_0_30px_-10px_rgba(139,92,246,0.95)] transition hover:brightness-110 active:scale-95"
-          >
-            <Play className="h-4 w-4 fill-current" aria-hidden />
-            Play
-          </Link>
-          {completed && <ShareButton text={shareText} label="Share" />}
+
+          <div className="flex flex-wrap items-center justify-end gap-3">
+            <div className="text-right">
+              <p className="flex items-center justify-end gap-1 font-display text-lg font-bold">
+                <Flame
+                  className={`h-4 w-4 ${streak > 0 ? "text-orange-400" : "text-muted"}`}
+                  aria-hidden
+                />
+                {streak} day{streak === 1 ? "" : "s"}
+              </p>
+              <p className="text-[11px] uppercase tracking-widest text-muted">
+                {completed
+                  ? "done today ✓"
+                  : progress.daily.best > 0
+                    ? `best ${progress.daily.best}`
+                    : "starts today"}
+              </p>
+            </div>
+            <Link
+              href={`/games/${game.slug}/`}
+              className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-violet-600 to-cyan-600 px-5 py-2.5 text-sm font-bold text-white shadow-[0_0_30px_-10px_rgba(139,92,246,0.95)] transition hover:brightness-110 active:scale-95"
+            >
+              <Play className="h-4 w-4 fill-current" aria-hidden />
+              Play
+            </Link>
+            {completed && <ShareButton text={shareText} label="Share" />}
+          </div>
         </div>
       </div>
     </section>
