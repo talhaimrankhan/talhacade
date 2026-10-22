@@ -4,6 +4,8 @@ import "./globals.css";
 import { AchievementToasts } from "@/components/achievement-toasts";
 import { Celebrations } from "@/components/celebrations";
 import { JsonLd } from "@/components/json-ld";
+import { KonamiListener } from "@/components/konami";
+import { OfflineBanner } from "@/components/offline-banner";
 import { ServiceWorkerRegister } from "@/components/pwa";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -48,11 +50,20 @@ export const metadata: Metadata = {
     url: site.url,
     siteName: site.name,
     type: "website",
+    images: [
+      {
+        url: `${site.url}/og.png`,
+        width: 1200,
+        height: 630,
+        alt: "Talhacade — 160 free browser games, no signup",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${site.name} — Free Browser Games, No Signup`,
     description: site.description,
+    images: [`${site.url}/og.png`],
   },
 };
 
@@ -109,6 +120,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             before any on-mount unlocks (e.g. RecentTracker) dispatch. */}
         <AchievementToasts />
         <Celebrations />
+        <KonamiListener />
+        <OfflineBanner />
         <main className="flex-1">{children}</main>
         <SiteFooter />
       </body>

@@ -7,6 +7,7 @@ import { GamePlayer } from "@/components/game-player";
 import { JsonLd } from "@/components/json-ld";
 import { RecentTracker } from "@/components/recent-tracker";
 import { ScoreChip } from "@/components/score-chip";
+import { TheatreToggle } from "@/components/theatre";
 import { getCategory, getGame, games, similarGames, site } from "@/lib/catalog";
 
 export function generateStaticParams() {
@@ -91,23 +92,24 @@ export default async function GamePage({
       <JsonLd data={breadcrumbLd} />
       <RecentTracker slug={game.slug} />
 
-      <nav aria-label="Breadcrumb" className="text-xs text-muted">
-        <Link href="/" className="transition hover:text-accent">
-          Home
-        </Link>
-        <span className="mx-2 opacity-50">/</span>
-        <Link
-          href={`/category/${game.category}/`}
-          className="transition hover:text-accent"
-        >
-          {category?.name}
-        </Link>
-        <span className="mx-2 opacity-50">/</span>
-        <span className="text-ink">{game.title}</span>
-      </nav>
+      <div className="focus-hide">
+        <nav aria-label="Breadcrumb" className="text-xs text-muted">
+          <Link href="/" className="transition hover:text-accent">
+            Home
+          </Link>
+          <span className="mx-2 opacity-50">/</span>
+          <Link
+            href={`/category/${game.category}/`}
+            className="transition hover:text-accent"
+          >
+            {category?.name}
+          </Link>
+          <span className="mx-2 opacity-50">/</span>
+          <span className="text-ink">{game.title}</span>
+        </nav>
 
-      {/* title row */}
-      <header className="mt-6 flex flex-wrap items-center justify-between gap-4">
+        {/* title row */}
+        <header className="mt-6 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <span
             className={`grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br text-3xl ${game.cover.gradient} shadow-[0_0_36px_-12px_rgba(139,92,246,0.9)]`}
@@ -135,19 +137,26 @@ export default async function GamePage({
           <ScoreChip slug={game.slug} />
           <FavoriteButton slug={game.slug} title={game.title} />
         </div>
-      </header>
+        </header>
+      </div>
 
       {/* game frame */}
-      <div className="mt-7 rounded-3xl border border-line bg-surface/70 p-3 shadow-[0_36px_90px_-46px_rgba(139,92,246,0.95)] backdrop-blur sm:p-4">
+      <div
+        id="game-frame"
+        className="mt-7 rounded-3xl border border-line bg-surface/70 p-3 shadow-[0_36px_90px_-46px_rgba(139,92,246,0.95)] backdrop-blur sm:p-4"
+      >
         <div className="mb-3 flex items-center justify-between px-2">
           <span className="flex gap-1.5" aria-hidden>
             <span className="h-3 w-3 rounded-full bg-rose-500/80" />
             <span className="h-3 w-3 rounded-full bg-warn/80" />
             <span className="h-3 w-3 rounded-full bg-success/80" />
           </span>
-          <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">
-            talhacade // {game.slug}
-          </span>
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted">
+              talhacade // {game.slug}
+            </span>
+            <TheatreToggle />
+          </div>
         </div>
 
         <div className="overflow-hidden rounded-2xl border border-line bg-[#0b0b16]">
@@ -155,8 +164,9 @@ export default async function GamePage({
         </div>
       </div>
 
-      {/* details */}
-      <div className="mt-8 grid gap-6 lg:grid-cols-3">
+      <div className="focus-hide">
+        {/* details */}
+        <div className="mt-8 grid gap-6 lg:grid-cols-3">
         <div className="panel p-6 lg:col-span-2">
           <h2 className="font-display text-lg font-semibold">About this game</h2>
           <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
@@ -223,7 +233,8 @@ export default async function GamePage({
             <GameCard key={g.slug} slug={g.slug} />
           ))}
         </div>
-      </section>
+        </section>
+      </div>
     </div>
   );
 }

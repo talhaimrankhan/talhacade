@@ -73,6 +73,7 @@ export const ACHIEVEMENTS: Achievement[] = [
   { id: "daily-3", icon: "🔥", title: "On a Roll", desc: "Reach a 3-day Daily Challenge streak." },
   { id: "daily-7", icon: "⚡", title: "Week of Play", desc: "Reach a 7-day Daily Challenge streak." },
   { id: "daily-30", icon: "💎", title: "Iron Habit", desc: "Reach a 30-day Daily Challenge streak." },
+  { id: "konami", icon: "🥚", title: "8-Bit Legend", desc: "Enter the sacred code." },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -466,6 +467,31 @@ export function recordFavorite(): void {
   if (typeof window === "undefined") return;
   try {
     evaluate(Date.now());
+  } catch {
+    // Never throw from stats bookkeeping.
+  }
+}
+
+/**
+ * Direct unlock for event-driven badges (e.g. the Konami code easter egg)
+ * that no stats condition can express. Idempotent: an already-owned badge
+ * stays untouched and stays silent.
+ */
+export function unlockAchievement(id: string): void {
+  if (typeof window === "undefined") return;
+  try {
+    const unlocked = normalizeUnlocked(parseJson(readRaw(UNLOCKED_KEY)));
+    if (unlocked[id] !== undefined) return;
+    unlocked[id] = Date.now();
+    writeRaw(UNLOCKED_KEY, unlocked);
+    const achievement = ACHIEVEMENTS.find((a) => a.id === id);
+    if (achievement) {
+      window.dispatchEvent(
+        new CustomEvent<Achievement>("talhacade:achievement", {
+          detail: achievement,
+        }),
+      );
+    }
   } catch {
     // Never throw from stats bookkeeping.
   }

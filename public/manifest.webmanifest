@@ -10,6 +10,26 @@
   "background_color": "#07070e",
   "theme_color": "#07070e",
   "categories": ["games", "entertainment"],
+  "shortcuts": [
+    {
+      "name": "Daily Challenge",
+      "short_name": "Daily",
+      "description": "Play today's featured game and keep the streak",
+      "url": "./"
+    },
+    {
+      "name": "All Games",
+      "short_name": "Games",
+      "description": "Browse all 160 free games",
+      "url": "./games/"
+    },
+    {
+      "name": "Favorites",
+      "short_name": "Favorites",
+      "description": "Jump back into your favorited games",
+      "url": "./favorites/"
+    }
+  ],
   "icons": [
     {
       "src": "icon-192.png",

@@ -1,0 +1,117 @@
+<!doctype html>
+<!--
+  Source for public/og.png (the social preview card).
+
+  Regenerate with:
+    cp scripts/og.html out/og.html
+    # open http://localhost:4173/og.html in the agent browser,
+    # full-page screenshot at 1200x630 → public/og.png
+    rm out/og.html
+
+  Design notes: 1200x630 exactly (Twitter/WhatsApp/Discord card ratio),
+  dark like the site, one big wordmark, one line of proof, a peek of the
+  game grid, and the URL. Text stays large — link previews render small.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Talhacade — OG card</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Geist:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      /* Fill the viewport so a full-viewport screenshot has no empty margins;
+         gen_og.py produces the canonical 1200x630 asset in public/. */
+      html, body {
+        width: 100vw; height: 100vh; overflow: hidden; background: #07070e;
+        margin: 0; padding: 0;
+      }
+      .card {
+        position: relative;
+        width: 100vw; height: 100vh; overflow: hidden;
+        color: #fff;
+        font-family: "Geist", system-ui, sans-serif;
+        display: flex; flex-direction: column; justify-content: space-between;
+        padding: 6.2vw 6.6vw 5.4vw;
+      }
+      /* neon glows, same vibe as the site hero */
+      .glow {
+        position: absolute;
+        border-radius: 9999px;
+        filter: blur(90px);
+        pointer-events: none;
+      }
+      .glow-a { top: -17vh; right: -11vw; width: 52vw; height: 89vh; background: rgba(139, 92, 246, 0.35); }
+      .glow-b { bottom: -35vh; left: -12vw; width: 48vw; height: 83vh; background: rgba(6, 182, 212, 0.28); }
+      .kicker {
+        position: relative;
+        font-size: 1.9vw; font-weight: 700;
+        letter-spacing: 0.32em; text-transform: uppercase; color: #8be9fd;
+      }
+      h1 {
+        position: relative; margin-top: 2vw;
+        font-family: "Chakra Petch", system-ui, sans-serif;
+        font-size: 11vw; font-weight: 700; line-height: 1; letter-spacing: 0.02em;
+        background: linear-gradient(90deg, #a78bfa 0%, #22d3ee 100%);
+        -webkit-background-clip: text; background-clip: text; color: transparent;
+      }
+      .proof {
+        position: relative; margin-top: 2.4vw;
+        font-size: 2.9vw; font-weight: 600; color: #e6e6f0;
+      }
+      .proof b { color: #fff; }
+      .tiles { position: relative; display: flex; gap: 1.7vw; margin-top: 3.8vw; }
+      .tile {
+        width: 8.8vw; height: 8.8vw; display: grid; place-items: center;
+        font-size: 4.4vw; border-radius: 2.1vw;
+        border: 1px solid rgba(255, 255, 255, 0.09);
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .tile.v { box-shadow: inset 0 0 3.2vw -1vw rgba(139, 92, 246, 0.9); }
+      .tile.c { box-shadow: inset 0 0 3.2vw -1vw rgba(6, 182, 212, 0.9); }
+      .footer {
+        position: relative; display: flex; align-items: center; justify-content: space-between;
+      }
+      .daily {
+        display: flex; align-items: center; gap: 1.3vw;
+        font-size: 2.5vw; font-weight: 600; color: #d7d7e6;
+      }
+      .daily .flame { font-size: 3.2vw; }
+      .url {
+        font-family: "Chakra Petch", system-ui, sans-serif;
+        font-size: 2.6vw; font-weight: 600; letter-spacing: 0.06em; color: #9a9ab0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+    <div class="glow glow-a"></div>
+    <div class="glow glow-b"></div>
+
+    <div>
+      <p class="kicker">Free browser arcade</p>
+      <h1>TALHACADE</h1>
+      <p class="proof"><b>160 games</b> · no signup · no downloads · works offline</p>
+      <div class="tiles" aria-hidden>
+        <div class="tile v">🐍</div>
+        <div class="tile c">🔢</div>
+        <div class="tile v">🏎️</div>
+        <div class="tile c">🎯</div>
+        <div class="tile v">🧩</div>
+        <div class="tile c">🏓</div>
+        <div class="tile v">💣</div>
+        <div class="tile c">📚</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p class="daily"><span class="flame">🔥</span> New Daily Challenge every day — keep the streak</p>
+      <p class="url">talhaimrankhan.github.io/talhacade</p>
+    </div>
+    </div>
+  </body>
+</html>

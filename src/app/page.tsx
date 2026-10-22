@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/json-ld";
 import { RandomButton } from "@/components/random-button";
 import { RecentlyPlayed } from "@/components/recently-played";
 import { Shelf } from "@/components/shelf";
+import { Tour } from "@/components/tour";
 import {
   popularSlugs,
   publishedCategories,
@@ -144,6 +145,7 @@ export default function HomePage() {
         <DailyChallenge />
         <RecentlyPlayed />
       </div>
+      <Tour />
 
       {/* ---------------- categories ---------------- */}
       <section id="categories" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-14 sm:px-6">
