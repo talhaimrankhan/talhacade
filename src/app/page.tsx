@@ -1,5 +1,6 @@
 import { ArcadeWall } from "@/components/arcade-wall";
 import { CategoriesGrid } from "@/components/categories-grid";
+import { DailyChallenge } from "@/components/daily-card";
 import { GamesSection } from "@/components/games-section";
 import { JsonLd } from "@/components/json-ld";
 import { RandomButton } from "@/components/random-button";
@@ -138,8 +139,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ---------------- recent ---------------- */}
-      <div className="pt-6">
+      {/* ---------------- daily challenge ---------------- */}
+      <div className="space-y-6 pt-6">
+        <DailyChallenge />
         <RecentlyPlayed />
       </div>
 

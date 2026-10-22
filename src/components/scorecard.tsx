@@ -3,6 +3,8 @@
 import {
   Award,
   Compass,
+  Crown,
+  Flame,
   Gamepad2,
   Heart,
   History,
@@ -16,12 +18,14 @@ import {
   type Progress,
 } from "@/lib/achievements";
 import { GameCard } from "@/components/game-card";
+import { ShareButton } from "@/components/share-button";
 import {
   formatBest,
   games,
   getCategory,
   getGame,
   publishedCategories,
+  site,
 } from "@/lib/catalog";
 import { useFavorites, useRecent } from "@/lib/storage";
 import type { Game } from "@/lib/types";
@@ -145,22 +149,33 @@ export function Scorecard() {
     (unlockedCount / Math.max(ACHIEVEMENTS.length, 1)) * 100,
   );
 
+  const cardText = [
+    "🕹️ My Talhacade card",
+    `🏅 ${unlockedCount}/${ACHIEVEMENTS.length} achievements · 🎮 ${playedCount}/${games.length} games played · 🔥 ${progress.daily.streak}-day streak`,
+    `Play free, no signup: ${site.url}/`,
+  ].join("\n");
+
   return (
     <div>
       {/* Intro */}
-      <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
-        Your arcade
-      </p>
-      <h1 className="mt-1 font-display text-3xl font-bold sm:text-4xl">
-        Scorecard
-      </h1>
-      <p className="mt-2 max-w-2xl text-sm text-muted">
-        Every number below lives in this browser only — no account, no server,
-        no tracking.
-      </p>
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-accent">
+            Your arcade
+          </p>
+          <h1 className="mt-1 font-display text-3xl font-bold sm:text-4xl">
+            Scorecard
+          </h1>
+          <p className="mt-2 max-w-2xl text-sm text-muted">
+            Every number below lives in this browser only — no account, no server,
+            no tracking.
+          </p>
+        </div>
+        <ShareButton text={cardText} label="Share my card" className="mt-1" />
+      </div>
 
       {/* Stat tiles */}
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <StatTile
           label="Games played"
           icon={Gamepad2}
@@ -180,6 +195,16 @@ export function Scorecard() {
           label="Achievements"
           icon={Award}
           value={`${unlockedCount}/${ACHIEVEMENTS.length}`}
+        />
+        <StatTile
+          label="Daily streak"
+          icon={Flame}
+          value={`${progress.daily.streak}🔥`}
+        />
+        <StatTile
+          label="Longest streak"
+          icon={Crown}
+          value={String(progress.daily.best)}
         />
       </div>
 

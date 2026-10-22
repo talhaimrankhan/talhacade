@@ -110,15 +110,18 @@ export function Celebrations() {
 
     const onAchievement = () => burst();
     const onBest = () => burst();
+    const onDaily = () => burst();
 
     window.addEventListener("talhacade:achievement", onAchievement);
     window.addEventListener("talhacade:best", onBest);
+    window.addEventListener("talhacade:daily", onDaily);
     window.addEventListener("resize", resize);
     resize();
 
     return () => {
       window.removeEventListener("talhacade:achievement", onAchievement);
       window.removeEventListener("talhacade:best", onBest);
+      window.removeEventListener("talhacade:daily", onDaily);
       window.removeEventListener("resize", resize);
       if (raf !== null) cancelAnimationFrame(raf);
       particles.length = 0;

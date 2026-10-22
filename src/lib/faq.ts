@@ -25,4 +25,8 @@ export const faqs: FaqItem[] = [
     q: "What kinds of games are here?",
     a: "Eight genres: arcade, puzzle, strategy, casual, racing, shooting, sports and word — from 30-second reaction tests to strategy duels that eat your lunch break.",
   },
+  {
+    q: "What is the Daily Challenge?",
+    a: "Every day features one game from all 160 — play it to keep your daily streak alive. The pick changes at midnight, your streak lives in this browser only, and one tap shares it with friends.",
+  },
 ];

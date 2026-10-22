@@ -2,6 +2,7 @@
 
 import { useSyncExternalStore } from "react";
 import { games, getGame, publishedCategories } from "@/lib/catalog";
+import { dailyGame, isYesterday } from "@/lib/daily";
 import type { BestMode } from "@/lib/storage";
 
 /**
@@ -46,6 +47,8 @@ export interface Progress {
   bests: Record<string, { v: number; m: BestMode; t: number }>;
   /** total number of personal bests ever set (sum across games) */
   pbCount: number;
+  /** Daily Challenge state (mirror of the stats blob, for the UI). */
+  daily: { day: string; streak: number; best: number };
 }
 
 export const ACHIEVEMENTS: Achievement[] = [
@@ -67,6 +70,9 @@ export const ACHIEVEMENTS: Achievement[] = [
   { id: "shooting-5", icon: "🎯", title: "Sharpshooter", desc: "Play 5 Shooting games." },
   { id: "night-owl", icon: "🦉", title: "Night Owl", desc: "Play a game between midnight and 5 AM." },
   { id: "marathon-10", icon: "🏃", title: "Marathon", desc: "Play 10 games in a single day." },
+  { id: "daily-3", icon: "🔥", title: "On a Roll", desc: "Reach a 3-day Daily Challenge streak." },
+  { id: "daily-7", icon: "⚡", title: "Week of Play", desc: "Reach a 7-day Daily Challenge streak." },
+  { id: "daily-30", icon: "💎", title: "Iron Habit", desc: "Reach a 30-day Daily Challenge streak." },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -83,6 +89,12 @@ interface Stats {
   dayCount: number;
   /** Latched true once a game was opened between 00:00 and 05:00. */
   night: boolean;
+  /** "YYYY-MM-DD" the Daily Challenge was last completed on. */
+  dailyDay: string;
+  /** Consecutive days completing the Daily Challenge. */
+  dailyStreak: number;
+  /** Longest Daily Challenge streak ever. */
+  dailyBest: number;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -132,6 +144,10 @@ function normalizeStats(raw: unknown): Stats {
     day: typeof source.day === "string" ? source.day : "",
     dayCount: typeof source.dayCount === "number" ? source.dayCount : 0,
     night: source.night === true,
+    dailyDay: typeof source.dailyDay === "string" ? source.dailyDay : "",
+    dailyStreak:
+      typeof source.dailyStreak === "number" ? source.dailyStreak : 0,
+    dailyBest: typeof source.dailyBest === "number" ? source.dailyBest : 0,
   };
 }
 
@@ -148,6 +164,7 @@ const EMPTY_PROGRESS: Progress = {
   played: {},
   bests: {},
   pbCount: 0,
+  daily: { day: "", streak: 0, best: 0 },
 };
 
 interface CacheEntry {
@@ -196,6 +213,11 @@ function snapshot(): Progress {
     played: stats.played,
     bests: stats.bests,
     pbCount: stats.pbCount,
+    daily: {
+      day: stats.dailyDay,
+      streak: stats.dailyStreak,
+      best: stats.dailyBest,
+    },
   };
   cache = { unlockedRaw, statsRaw, value };
   return value;
@@ -321,6 +343,12 @@ function isSatisfied(
       );
     case "marathon-10":
       return stats.day === dayKey(now) && stats.dayCount >= 10;
+    case "daily-3":
+      return stats.dailyStreak >= 3;
+    case "daily-7":
+      return stats.dailyStreak >= 7;
+    case "daily-30":
+      return stats.dailyStreak >= 30;
     default:
       return false;
   }
@@ -378,8 +406,32 @@ export function recordPlayed(slug: string): void {
     // Night Owl: anything between midnight and 5 AM.
     if (new Date(now).getHours() < 5) stats.night = true;
 
+    // Daily Challenge: opening the featured game completes the day and
+    // extends (or resets) the streak.
+    let dailyCompleted = false;
+    if (slug === dailyGame(today).slug && stats.dailyDay !== today) {
+      stats.dailyStreak = isYesterday(stats.dailyDay, today)
+        ? stats.dailyStreak + 1
+        : 1;
+      if (stats.dailyStreak > stats.dailyBest) {
+        stats.dailyBest = stats.dailyStreak;
+      }
+      stats.dailyDay = today;
+      dailyCompleted = true;
+    }
+
     writeRaw(STATS_KEY, stats);
     evaluate(now);
+
+    // Global signal — the daily card and celebration layer listen for this.
+    if (dailyCompleted) {
+      window.dispatchEvent(
+        new CustomEvent<{ slug: string; streak: number; day: string }>(
+          "talhacade:daily",
+          { detail: { slug, streak: stats.dailyStreak, day: today } },
+        ),
+      );
+    }
   } catch {
     // Bookkeeping must never break the game itself.
   }
