@@ -4,9 +4,10 @@ import { notFound } from "next/navigation";
 import { FavoriteButton } from "@/components/favorite-button";
 import { GameCard } from "@/components/game-card";
 import { GamePlayer } from "@/components/game-player";
+import { JsonLd } from "@/components/json-ld";
 import { RecentTracker } from "@/components/recent-tracker";
 import { ScoreChip } from "@/components/score-chip";
-import { getCategory, getGame, games, similarGames } from "@/lib/catalog";
+import { getCategory, getGame, games, similarGames, site } from "@/lib/catalog";
 
 export function generateStaticParams() {
   return games.map((game) => ({ slug: game.slug }));
@@ -46,8 +47,48 @@ export default async function GamePage({
   const category = getCategory(game.category);
   const similar = similarGames(game, 6);
 
+  const videoGameLd = {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    name: game.title,
+    url: `${site.url}/games/${game.slug}/`,
+    description: `${game.tagline} ${game.description}`.slice(0, 300),
+    inLanguage: "en",
+    genre: category?.name ?? game.category,
+    gamePlatform: "Web browser",
+    playMode: "SinglePlayer",
+    operatingSystem: "Any",
+    applicationCategory: "Game",
+    keywords: game.tags.join(", "),
+    isAccessibleForFree: true,
+    publisher: { "@type": "Organization", name: site.name },
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${site.url}/` },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: category?.name ?? game.category,
+        item: `${site.url}/category/${game.category}/`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: game.title,
+        item: `${site.url}/games/${game.slug}/`,
+      },
+    ],
+  };
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+      <JsonLd data={videoGameLd} />
+      <JsonLd data={breadcrumbLd} />
       <RecentTracker slug={game.slug} />
 
       <nav aria-label="Breadcrumb" className="text-xs text-muted">

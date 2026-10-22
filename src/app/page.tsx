@@ -1,6 +1,7 @@
 import { ArcadeWall } from "@/components/arcade-wall";
 import { CategoriesGrid } from "@/components/categories-grid";
 import { GamesSection } from "@/components/games-section";
+import { JsonLd } from "@/components/json-ld";
 import { RandomButton } from "@/components/random-button";
 import { RecentlyPlayed } from "@/components/recently-played";
 import { Shelf } from "@/components/shelf";
@@ -11,6 +12,7 @@ import {
   site,
   trendingSlugs,
 } from "@/lib/catalog";
+import { faqs } from "@/lib/faq";
 import {
   Cookie,
   MonitorSmartphone,
@@ -54,32 +56,20 @@ const features = [
   },
 ];
 
-const faqs = [
-  {
-    q: "Do I need an account?",
-    a: "No — there is no signup, no login and no download anywhere on the site. Click a game and it starts.",
-  },
-  {
-    q: "Where are my high scores and favorites saved?",
-    a: "In your browser's local storage, on your device only. Nothing is uploaded to a server; clearing your browser data resets them.",
-  },
-  {
-    q: "Do the games work on phones and tablets?",
-    a: "Yes. Every game is labeled keyboard, mouse or touch, and touch games show on-screen controls that fit your thumb.",
-  },
-  {
-    q: "Are all the games really free?",
-    a: "Completely. No paywalls, no premium tier, no lives system — just pick and play.",
-  },
-  {
-    q: "What kinds of games are here?",
-    a: "Eight genres: arcade, puzzle, strategy, casual, racing, shooting, sports and word — from 30-second reaction tests to strategy duels that eat your lunch break.",
-  },
-];
-
 export default function HomePage() {
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  };
+
   return (
     <>
+      <JsonLd data={faqLd} />
       {/* ---------------- hero ---------------- */}
       <section className="relative overflow-hidden">
         <div className="mx-auto grid max-w-6xl items-center gap-14 px-4 pb-16 pt-14 sm:px-6 sm:pt-20 lg:grid-cols-2 lg:pb-24">

@@ -8,6 +8,10 @@ const nextConfig: NextConfig = {
   // Fully static site — deploys to GitHub Pages / Vercel / Netlify as plain files (out/).
   output: "export",
   trailingSlash: true,
+  // Client code (service-worker registration) needs to know the mount path.
+  env: {
+    NEXT_PUBLIC_BASE_PATH: isGitHubPages ? "/talhacade" : "",
+  },
   ...(isGitHubPages
     ? { basePath: "/talhacade", assetPrefix: "/talhacade" }
     : {}),

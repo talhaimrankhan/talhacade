@@ -1,6 +1,7 @@
 import { Gamepad2 } from "lucide-react";
 import Link from "next/link";
 import { FavoritesLink } from "@/components/favorites-link";
+import { InstallButton } from "@/components/pwa";
 import { RandomButton } from "@/components/random-button";
 import { SfxToggle } from "@/components/sfx-toggle";
 
@@ -36,6 +37,7 @@ export function SiteHeader() {
           </Link>
           <FavoritesLink />
           <RandomButton />
+          <InstallButton />
           <SfxToggle />
         </nav>
       </div>

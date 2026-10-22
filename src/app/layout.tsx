@@ -2,6 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Chakra_Petch, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AchievementToasts } from "@/components/achievement-toasts";
+import { Celebrations } from "@/components/celebrations";
+import { JsonLd } from "@/components/json-ld";
+import { ServiceWorkerRegister } from "@/components/pwa";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { site } from "@/lib/catalog";
@@ -53,6 +56,34 @@ export const metadata: Metadata = {
   },
 };
 
+/** Site-wide structured data — WebSite (with search) + publisher org. */
+const siteGraph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      name: site.name,
+      url: site.url,
+      description: site.description,
+      inLanguage: "en",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${site.url}/games/?q={search_term_string}`,
+        },
+        "query-input": "required name=search_term_string",
+      },
+    },
+    {
+      "@type": "Organization",
+      name: site.name,
+      url: site.url,
+      logo: `${site.url}/icon.svg`,
+    },
+  ],
+};
+
 export const viewport: Viewport = {
   themeColor: "#07070e",
 };
@@ -64,11 +95,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} ${chakraPetch.variable} h-full antialiased`}
     >
+      {/* Explicit base path: relative manifest URLs break on deep pages and
+          under the GitHub Pages /talhacade/ prefix. React hoists <link> to head. */}
+      <link
+        rel="manifest"
+        href={`${process.env.NEXT_PUBLIC_BASE_PATH}/manifest.webmanifest`}
+      />
       <body className="flex min-h-screen flex-col">
+        <JsonLd data={siteGraph} />
+        <ServiceWorkerRegister />
         <SiteHeader />
         {/* Mounted before page content so its event listener is attached
             before any on-mount unlocks (e.g. RecentTracker) dispatch. */}
         <AchievementToasts />
+        <Celebrations />
         <main className="flex-1">{children}</main>
         <SiteFooter />
       </body>

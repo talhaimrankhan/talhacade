@@ -132,6 +132,12 @@ export function useBestScore(gameId: string, mode: BestMode = "high") {
       if (isBest) {
         write(key, score);
         recordPb(gameId, score, mode);
+        // Global signal — the celebrations layer listens for this.
+        window.dispatchEvent(
+          new CustomEvent("talhacade:best", {
+            detail: { slug: gameId, score, mode },
+          }),
+        );
       }
       return isBest;
     },
